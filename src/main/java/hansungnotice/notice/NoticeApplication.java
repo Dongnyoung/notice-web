@@ -20,17 +20,12 @@ public class NoticeApplication {
 			// 해당 페이지를 Jsoup을 사용하여 요청
 			Document doc = Jsoup.connect(url).get();
 
-			// form[name=viewForm] 내에서 board-table horizon1 클래스를 찾고, tbody 안의 tr의 td.td-subject 선택
 			Elements noticeTitles = doc.select("form[name=viewForm] .board-table.horizon1 tbody tr td.td-subject");
 
-			// 상위 5개만 출력
-			int count = 0;
+			int count=0;
 			for (Element title : noticeTitles) {
-				if (count >= 5) break; // 5개까지만 출력
 				String noticeTitle = title.text(); // 공지사항 제목
 
-				System.out.println("공지 제목: " + noticeTitle);
-				count++; // 카운트 증가
 			}
 
 		} catch (IOException e) {
