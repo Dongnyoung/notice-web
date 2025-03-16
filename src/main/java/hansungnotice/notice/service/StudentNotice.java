@@ -1,6 +1,9 @@
-package hansungnotice.notice;
+package hansungnotice.notice.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import hansungnotice.notice.domain.Notice;
@@ -29,16 +32,33 @@ public class StudentNotice {
             Document doc = Jsoup.connect(url).get();
 
             // form[name=viewForm] 내에서 board-table horizon1 클래스를 찾고, tbody 안의 tr의 td.td-subject 선택
-            Elements noticeTitles = doc.select("form[name=viewForm] .board-table.horizon1 tbody tr td.td-subject");
+            Elements noticeValues = doc.select("form[name=viewForm] .board-table.horizon1 tbody tr");
 
             // 상위 5개만 출력
             int count = 0;
-            for (Element title : noticeTitles) {
-                if (count >= 5) break; // 5개까지만 출력
-                String noticeTitle = title.text(); // 공지사항 제목
+            for (Element value : noticeValues) {
+                Element titleElement = value.selectFirst("td.td-subject");
+                Element dateElement = value.selectFirst("td.td-date");
 
-                System.out.println("공지 제목: " + noticeTitle);
-                count++; // 카운트 증가
+                if (titleElement == null || dateElement == null) {
+                    System.out.println("공지 항목을 찾을 수 없습니다.");
+                    continue;
+                }
+
+                if (count >= 5) break;
+
+                String noticeTitle = titleElement.text(); // 공지 제목
+                String noticeDateStr = dateElement.text(); // 공지 날짜 (String)
+
+                // String → LocalDateTime 변환
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+                LocalDate localDate = LocalDate.parse(noticeDateStr, formatter);
+                //LocalDateTime noticeDate = localDate.atStartOfDay(); // 00:00:00 시간 추가
+
+                //추가
+                Notice notice = new Notice(noticeTitle,localDate);
+                noticeRepository.save(notice);
+                count++;
             }
 
         } catch (IOException e) {

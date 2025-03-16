@@ -5,9 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Getter
 @Entity
 public class Notice {
@@ -15,13 +18,10 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String url;
-    private LocalDateTime postedDate; //게시일
+    private LocalDate postedDate; //게시일
 
-    public Notice(Long id, String title, String url, LocalDateTime postedDate) {
-        this.id = id;
+    public Notice(String title, LocalDate postedDate) {
         this.title = title;
-        this.url = url;
         this.postedDate = postedDate;
     }
 
