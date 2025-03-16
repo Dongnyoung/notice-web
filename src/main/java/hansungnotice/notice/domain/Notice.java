@@ -1,9 +1,6 @@
 package hansungnotice.notice.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +17,8 @@ public class Notice {
     private String title;
     private LocalDate postedDate; //게시일
 
+    @Enumerated(EnumType.STRING)
+    private NoticeType type; //공지유형 (학사공지,장학공지..)
     public Notice(String title, LocalDate postedDate) {
         this.title = title;
         this.postedDate = postedDate;

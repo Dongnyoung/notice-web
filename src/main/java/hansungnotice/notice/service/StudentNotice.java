@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import hansungnotice.notice.domain.Notice;
+import hansungnotice.notice.domain.NoticeType;
 import hansungnotice.notice.noticerepository.NoticeRepository;
 import jakarta.transaction.Transactional;
 import org.jsoup.Jsoup;
@@ -55,7 +56,7 @@ public class StudentNotice {
                 //LocalDateTime noticeDate = localDate.atStartOfDay(); // 00:00:00 시간 추가
 
                 //추가
-                Notice notice = new Notice(noticeTitle,localDate);
+                Notice notice = new Notice(noticeTitle,localDate, NoticeType.STUDENT);
                 noticeRepository.save(notice);
                 count++;
             }
