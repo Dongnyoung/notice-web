@@ -48,7 +48,7 @@ public class PointService {
                 if (count >= 5) break;
 
                 String noticeTitle = titleElement.text(); // 공지 제목
-                String noticeDateStr = dateElement.text().replaceAll("\\(.*\\)", "").split(" ")[0];; // 공지 날짜 (String)
+                String noticeDateStr = dateElement.text().replaceAll("\\(.*\\)", "").split(" ")[0]; // 공지 날짜 (String)
 
 
 
