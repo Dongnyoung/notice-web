@@ -4,7 +4,7 @@ import hansungnotice.notice.domain.Notice;
 import hansungnotice.notice.domain.NoticeType;
 import hansungnotice.notice.noticerepository.NoticeRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
