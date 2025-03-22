@@ -2,5 +2,6 @@ package hansungnotice.notice.domain;
 
 public enum NoticeType {
     STUDENT,
-    SCHOOL
+    SCHOOL,
+    POINT
 }
