@@ -15,6 +15,8 @@ import java.util.List;
 public class NoticeApplication {
 
 	public static void main(String[] args) {
+		SpringApplication.run(NoticeApplication.class,args);
+/*
 		ApplicationContext context = SpringApplication.run(NoticeApplication.class, args);
 
 		// StudentNotice 서비스 빈 가져오기
@@ -68,5 +70,7 @@ public class NoticeApplication {
 				System.out.println("----------------------------");
 			}
 		}
+
+*/
 	}
 }

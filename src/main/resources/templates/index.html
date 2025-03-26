@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한성대 공지 알리미</title>
+    <script defer src="popupApi.js"></script>
+</head>
+<body>
+<h1>📢 한성대 공지사항</h1>
+
+<h2>학사 공지</h2>
+<ul id="student-notice-list">
+
+</ul>
+<button onclick="fetchStudentNotices()">🔄학사공지 새로고침</button>
+
+<h2>학교 공지</h2>
+<ul id="school-notice-list">
+
+</ul>
+<button onclick="fetchSchoolNotices()">🔄학교공지 새로고침</button>
+
+<h2>비교과 공지</h2>
+<ul id="point-notice-list">
+
+</ul>
+<button onclick="fetchPointNotices()">🔄비교과공지 새로고침</button>
+
+</body>
+</html>
