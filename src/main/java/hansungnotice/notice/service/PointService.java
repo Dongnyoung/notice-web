@@ -52,7 +52,7 @@ public class PointService {
                 String noticeUrl = urlElement.attr("href");
 
                 //절대주소 변환
-                noticeUrl = "http://www.hsportal.hansung.ac.kr"+noticeUrl;
+                noticeUrl = "http://hsportal.hansung.ac.kr"+noticeUrl;
 
                 // String → LocalDateTime 변환
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
