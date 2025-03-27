@@ -44,8 +44,8 @@ public class SchoolService {
 
                 Element titleElement = value.selectFirst("td.td-subject");
                 Element dateElement = value.selectFirst("td.td-date");
-
-                if (titleElement == null || dateElement == null) {
+                Element urlElement = value.selectFirst("a");
+                if (titleElement == null || dateElement == null || urlElement==null) {
                     System.out.println("공지 항목을 찾을 수 없습니다.");
                     continue;
                 }
@@ -54,14 +54,17 @@ public class SchoolService {
 
                 String noticeTitle = titleElement.text(); // 공지 제목
                 String noticeDateStr = dateElement.text(); // 공지 날짜 (String)
+                String noticeUrl = urlElement.attr("href");
 
+                //절대주소 변환
+                noticeUrl = "http://www.hansung.ac.kr"+noticeUrl;
                 // String → LocalDateTime 변환
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
                 LocalDate localDate = LocalDate.parse(noticeDateStr, formatter);
                 //LocalDateTime noticeDate = localDate.atStartOfDay(); // 00:00:00 시간 추가
 
                 //추가
-                Notice notice = new Notice(noticeTitle,localDate,noticeType);
+                Notice notice = new Notice(noticeTitle,localDate,noticeUrl, noticeType);
                 noticeRepository.save(notice);
                 count++;
             }

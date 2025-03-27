@@ -39,7 +39,7 @@ public class PointService {
 
                 Element titleElement = value.selectFirst(".title_wrap b");
                 Element dateElement = value.selectFirst("small time");
-
+                Element urlElement = value.selectFirst("a");
                 if (titleElement == null || dateElement == null) {
                     System.out.println("공지 항목을 찾을 수 없습니다.");
                     continue;
@@ -49,8 +49,10 @@ public class PointService {
 
                 String noticeTitle = titleElement.text(); // 공지 제목
                 String noticeDateStr = dateElement.text().replaceAll("\\(.*\\)", "").split(" ")[0]; // 공지 날짜 (String)
+                String noticeUrl = urlElement.attr("href");
 
-
+                //절대주소 변환
+                noticeUrl = "http://www.hansung.ac.kr"+noticeUrl;
 
                 // String → LocalDateTime 변환
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
@@ -58,7 +60,7 @@ public class PointService {
                 //LocalDateTime noticeDate = localDate.atStartOfDay(); // 00:00:00 시간 추가
 
                 //추가
-                Notice notice = new Notice(noticeTitle,localDate,noticeType);
+                Notice notice = new Notice(noticeTitle,localDate,noticeUrl, noticeType);
                 noticeRepository.save(notice);
                 count++;
             }
