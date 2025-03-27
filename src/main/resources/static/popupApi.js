@@ -27,18 +27,14 @@ async function fetchSchoolNotices(){
 async function fetchPointNotices(){
     await fetchNotices("http://localhost:8080/api/notifications/point", "point-notice-list");
 }
-/*
-async function fetchNoticesAndDisplay() {
-    // 먼저 /fetch를 호출하여 공지사항을 DB에 저장
-    await fetch("http://localhost:8080/api/notifications/fetch");
 
+async function fetchNoticesAndDisplay() {
     // 이후 공지사항 데이터를 각 엔드포인트에서 가져옴
     await fetchStudentNotices();
     await fetchSchoolNotices();
     await fetchPointNotices();
 }
-*/
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetchNoticesAndDisplay(); // 페이지 로드 시 크롤링하고 데이터를 가져오는 함수 호출
-});
+
+document.addEventListener("DOMContentLoaded",fetchNoticesAndDisplay);// 페이지 로드 시 크롤링하고 데이터를 가져오는 함수 호출
+
