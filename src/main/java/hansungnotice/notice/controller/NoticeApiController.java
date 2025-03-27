@@ -39,6 +39,7 @@ public class NoticeApiController {
         pointService.pointFetchAndSaveNotices(poUrl, NoticeType.POINT);
     }
 
+
     // 학생 공지사항 조회
     @GetMapping("/student")
     public List<Notice> getStudentNotices() {
