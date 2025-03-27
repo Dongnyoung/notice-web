@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "부기벨",
+  "version": "1.0",
+  "description": "한성대의 학사,학교,비교과 공지사항을 쉽게 확인하세요!",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icons/icon48.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:8080/*"
+  ]
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한성대 공지 알리미</title>
+    <script defer src="./popupApi.js"></script>
+    <style>
+        /* 팝업 창 크기 지정 */
+        body {
+            width: 400px;
+            height: 600px;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 나머지 스타일은 이전과 동일 */
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #444;
+            margin-top: 20px;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-type: none;
+        }
+
+        li {
+            font-size: 1.2em;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            font-size: 1.2em;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+<h1>📢 한성대 공지사항</h1>
+
+<h2>학사 공지</h2>
+<ul id="student-notice-list"></ul>
+<button id="refresh-student-notices">🔄 학사 공지 새로고침</button>
+
+<h2>학교 공지</h2>
+<ul id="school-notice-list"></ul>
+<button id="refresh-school-notices">🔄 학교 공지 새로고침</button>
+
+<h2>비교과 공지</h2>
+<ul id="point-notice-list"></ul>
+<button id="refresh-point-notices">🔄 비교과 공지 새로고침</button>
+
+</body>
+</html>
