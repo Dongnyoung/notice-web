@@ -52,6 +52,26 @@ async function fetchNoticesAndDisplay() {
     await fetchPointNotices();
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".tab-content");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+            const target = this.getAttribute("data-tab") + "-tab";
+
+            // 모든 버튼과 콘텐츠에서 active 제거
+            buttons.forEach(b => b.classList.remove("active"));
+            contents.forEach(c => c.classList.remove("active"));
+
+            // 클릭한 버튼과 해당 콘텐츠만 활성화
+            this.classList.add("active");
+            document.getElementById(target).classList.add("active");
+        });
+    });
+});
+
+
 // DOMContentLoaded 이벤트로 페이지 로드 후 데이터를 불러옴
 document.addEventListener("DOMContentLoaded", fetchNoticesAndDisplay);
 

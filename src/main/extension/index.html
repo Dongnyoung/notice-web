@@ -6,74 +6,377 @@
     <title>한성대 공지 알리미</title>
     <script defer src="./popupApi.js"></script>
     <style>
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         /* 팝업 창 크기 지정 */
         body {
             width: 400px;
             height: 600px;
             margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* 나머지 스타일은 이전과 동일 */
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+            background-color: #f9f9f9;
             color: #333;
-            margin-bottom: 20px;
         }
 
-        h2 {
-            font-size: 1.8em;
-            color: #444;
-            margin-top: 20px;
+        /* 헤더 스타일 */
+        .header {
+            background: linear-gradient(to right, #1e90ff, #4169e1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
         }
 
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+
+        .logo-img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+
+
+        /* 탭 스타일 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eaeaea;
+            background-color: #fff;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #777;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .tab.active {
+            color: #1e90ff;
+            border-bottom: 2px solid #1e90ff;
+        }
+
+        .tab:hover:not(.active) {
+            color: #555;
+            background-color: #f0f8ff;
+        }
+
+        .tab-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #1e90ff;
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 콘텐츠 영역 */
+        .content {
+            padding: 15px;
+            height: calc(100% - 120px);
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            color: #4169e1;
+            margin-bottom: 10px;
+            padding-left: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 공지사항 리스트 */
         ul {
-            padding-left: 20px;
             list-style-type: none;
+            padding: 0;
         }
 
         li {
-            font-size: 1.2em;
-            margin: 10px 0;
-            padding: 10px;
             background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            border-left: 3px solid transparent;
+        }
+
+        li:hover {
+            background-color: #f0f8ff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            border-left: 3px solid #1e90ff;
+        }
+
+        .notice-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .notice-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .notice-time {
+            font-size: 0.75rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .time-icon {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .new-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #1e90ff;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .external-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1e90ff;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        li:hover .external-icon {
+            opacity: 1;
+        }
+
+        /* 버튼 스타일 */
+        .footer {
+            background-color: #f5f5f5;
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid #eaeaea;
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #1e90ff;
             color: white;
             border: none;
-            padding: 15px 32px;
-            font-size: 1.2em;
-            margin: 10px 0;
-            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 0.9rem;
             border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: 100%;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #4169e1;
         }
 
+        .button-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .refresh-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .refresh-button {
+            flex: 1;
+            font-size: 0.8rem;
+            padding: 8px;
+        }
+
+        .mascot-small {
+            width: 16px;
+            height: 16px;
+        }
+
+        .mascot-medium {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 탭 버튼 스타일 수정 - 파란색 배경으로 변경 */
+        .tab-buttons {
+            display: flex;
+            gap: 20px; /* 버튼 사이 간격 */
+            margin-bottom: 10px;
+        }
+
+        .tab-button {
+            padding: 10px 10px;
+            border: none;
+            background-color: #1e90ff; /* 파란색 배경으로 변경 */
+            color: white; /* 텍스트 색상을 흰색으로 변경 */
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-button.active {
+            background-color: #4169e1; /* 활성화된 버튼은 더 진한 파란색 */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 활성화된 버튼에 그림자 추가 */
+        }
+
+        .tab-button:hover {
+            background-color: #4169e1; /* 호버 시 더 진한 파란색 */
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
-<h1>📢 한성대 공지사항</h1>
+<!-- 헤더 -->
+<div class="header">
+    <div class="header-title">
+            <img src="icons/icon48.png" alt="한성부기" class="logo-img">
+        <h1 class="title">🛎️부기벨🛎</h1>
+    </div>
 
-<h2>학사 공지</h2>
-<ul id="student-notice-list"></ul>
-<button id="refresh-student-notices">🔄 학사 공지 새로고침</button>
+</div>
 
-<h2>학교 공지</h2>
-<ul id="school-notice-list"></ul>
-<button id="refresh-school-notices">🔄 학교 공지 새로고침</button>
+<!-- 탭 버튼 -->
+<div class="tab-buttons">
+    <button class="tab-button active" data-tab="student">🎓학사 공지</button>
+    <button class="tab-button" data-tab="school">🏫학교 공지</button>
+    <button class="tab-button" data-tab="point">📚비교과 공지</button>
+</div>
 
-<h2>비교과 공지</h2>
-<ul id="point-notice-list"></ul>
-<button id="refresh-point-notices">🔄 비교과 공지 새로고침</button>
+<!-- 콘텐츠 영역 -->
+<div class="content">
+    <div class="tab-content active" id="student-tab">
+        <h2 class="section-title">
+            <img src="icons/icon48.png" alt="학사 공지 아이콘" class="section-icon">
+            학사 공지 상위 5개
+        </h2>
+        <ul id="student-notice-list"></ul>
+    </div>
 
+    <div class="tab-content" id="school-tab">
+        <h2 class="section-title">
+            <img src="icons/icon48.png" alt="학교 공지 아이콘" class="section-icon">
+            학교 공지 상위 5개
+        </h2>
+        <ul id="school-notice-list"></ul>
+    </div>
+
+    <div class="tab-content" id="point-tab">
+        <h2 class="section-title">
+            <img src="icons/icon48.png" alt="비교과 공지 아이콘" class="section-icon">
+            비교과 공지 상위 5개
+        </h2>
+        <ul id="point-notice-list"></ul>
+    </div>
+</div>
+
+<!-- 푸터 -->
+<div class="footer">
+    <button id="view-all">
+        <img src="icons/icon16.png" alt="보기 아이콘" class="button-icon">
+        학교홈페이지
+    </button>
+
+    <div class="refresh-buttons">
+        <button id="refresh-student-notices" class="refresh-button">
+            <img src="icons/icon48.png" alt="새로고침 아이콘" class="button-icon">
+            학사 공지 바로가기
+        </button>
+        <button id="refresh-school-notices" class="refresh-button">
+            <img src="icons/icon48.png" alt="새로고침 아이콘" class="button-icon">
+            학교 공지 바로가기
+        </button>
+        <button id="refresh-point-notices" class="refresh-button">
+            <img src="icons/icon48.png" alt="새로고침 아이콘" class="button-icon">
+            비교과 공지 바로가기
+        </button>
+    </div>
+</div>
 </body>
 </html>
+
