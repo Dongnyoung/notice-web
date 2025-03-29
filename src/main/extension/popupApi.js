@@ -15,7 +15,24 @@ async function fetchNotices(url, elementId){
         noticesList.innerHTML = ""; //기존 초기화
         notices.forEach(notice => {
             const listItem = document.createElement("li");
-            listItem.innerHTML = `<strong>${notice.title}</strong> - ${notice.postedDate}`;
+
+            if (notice.type === "POINT") {
+                listItem.innerHTML = `
+                        <strong>
+                            <span class="notice-title">${notice.title}</span>
+                        </strong>
+                        - <span class="notice-deadline"><strong>마감:</strong> </span>
+                        <span class="notice-date">${notice.postedDate}</span>
+                    `;
+            } else {
+            listItem.innerHTML = `
+                    <strong>
+                        <span class="notice-title">${notice.title}</span>
+                    </strong>
+                    - <span class="notice-date">${notice.postedDate}</span>
+                `;
+            }
+
 
             let noticeUrl = notice.url;
             if (noticeUrl.startsWith("chrome-extension://apcgkcekbhhjdddlmlfehfomdlnpdeek")) {

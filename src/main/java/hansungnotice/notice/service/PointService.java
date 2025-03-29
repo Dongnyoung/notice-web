@@ -38,7 +38,7 @@ public class PointService {
 
 
                 Element titleElement = value.selectFirst(".title_wrap b");
-                Element dateElement = value.selectFirst("small time");
+                Element dateElement = value.select("time").eq(1).first();
                 Element urlElement = value.selectFirst("a");
                 if (titleElement == null || dateElement == null) {
                     System.out.println("공지 항목을 찾을 수 없습니다.");
