@@ -21,8 +21,11 @@ public class Notice {
     @Enumerated(EnumType.STRING)
     private NoticeType type; //공지유형 (학사공지,장학공지..)
 
+    public NoticeType getType() {
+        return type;
+    }
 
-    public Notice(String title, LocalDate postedDate,String url,NoticeType type) {
+    public Notice(String title, LocalDate postedDate, String url, NoticeType type) {
         this.title = title;
         this.postedDate = postedDate;
         this.type = type;
