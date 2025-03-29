@@ -1,5 +1,10 @@
 const BASE_URL = "http://localhost:8080";
 
+
+
+
+
+
 // 공지사항 데이터를 불러오는 함수
 async function fetchNotices(url, elementId){
     try{

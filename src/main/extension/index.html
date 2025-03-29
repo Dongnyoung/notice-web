@@ -13,10 +13,24 @@
             box-sizing: border-box;
         }
 
+
+
+        /* 종료 버튼 이미지 스타일 */
+        .close-icon {
+            width: 50px; /* 이미지 크기 */
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+
+        /* 호버 효과 */
+        .close-icon:hover{
+           transform: scale(1.5); /* 호버 시 이미지 확대 */
+        }
         /* 팝업 창 크기 지정 */
         body {
             width: 400px;
-            height: 600px;
+            height: 450px;
             margin: 0;
             font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
             background-color: #f9f9f9;
@@ -42,8 +56,10 @@
 
 
         .logo-img {
-            width: 36px;
-            height: 36px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: white;
         }
 
         .title {
@@ -110,7 +126,7 @@
         /* 콘텐츠 영역 */
         .content {
             padding: 15px;
-            height: calc(100% - 120px);
+            height: calc(100% - 110px);
             overflow-y: auto;
         }
 
@@ -133,8 +149,8 @@
         }
 
         .section-icon {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
         }
 
         /* 공지사항 리스트 */
@@ -252,13 +268,14 @@
             height: 16px;
         }
 
-        .refresh-buttons {
+        .homepage-buttons {
             display: flex;
             gap: 10px;
             margin-top: 15px;
+            justify-content: center; /* 중앙 정렬 */
         }
 
-        .refresh-button {
+        .homepage-button {
             flex: 1;
             font-size: 0.8rem;
             padding: 8px;
@@ -309,15 +326,41 @@
         .tab-content.active {
             display: block;
         }
+
+        .button-link {
+            text-decoration: none; /* 밑줄 제거 */
+        }
+        .refresh-button {
+            background-color: #007bff; /* 파란색 배경 */
+            color: white; /* 흰색 글자 */
+            font-size: 14px;
+            font-weight: bold;
+            width:120px;
+            height:30px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .refresh-button:hover {
+            background-color: #0056b3; /* 호버 시 어두운 파란색 */
+            transform: scale(1.05); /* 약간 확대 */
+        }
+
+        .refresh-button:active {
+            background-color: #004099; /* 클릭 시 더 어두운 파란색 */
+            transform: scale(0.95); /* 살짝 축소 */
+        }
+
     </style>
 </head>
 <body>
 <!-- 헤더 -->
 <div class="header">
     <div class="header-title">
-            <img src="icons/icon48.png" alt="한성부기" class="logo-img">
-        <h1 class="title">🛎️부기벨🛎</h1>
+            <img src="icons/alarm.png" alt="한성부기" class="logo-img">
+        <h1 class="title">부기벨 🛎</h1>
     </div>
+        <img src="icons/close.png" class="close-icon" onclick="closePopup()">
 
 </div>
 
@@ -332,49 +375,63 @@
 <div class="content">
     <div class="tab-content active" id="student-tab">
         <h2 class="section-title">
-            <img src="icons/icon48.png" alt="학사 공지 아이콘" class="section-icon">
+            <img src="icons/study.png" alt="학사 공지 아이콘" class="section-icon">
             학사 공지 상위 5개
         </h2>
         <ul id="student-notice-list"></ul>
+        <button id="refresh-student-notices" class="refresh-button">🔄새로고침</button>
     </div>
 
     <div class="tab-content" id="school-tab">
         <h2 class="section-title">
-            <img src="icons/icon48.png" alt="학교 공지 아이콘" class="section-icon">
+            <img src="icons/school.png" alt="학교 공지 아이콘" class="section-icon">
             학교 공지 상위 5개
         </h2>
         <ul id="school-notice-list"></ul>
+        <button id="refresh-school-notices" class="refresh-button">🔄새로고침</button>
     </div>
 
     <div class="tab-content" id="point-tab">
         <h2 class="section-title">
-            <img src="icons/icon48.png" alt="비교과 공지 아이콘" class="section-icon">
+            <img src="icons/point.png" alt="비교과 공지 아이콘" class="section-icon">
             비교과 공지 상위 5개
         </h2>
         <ul id="point-notice-list"></ul>
+
+        <button id="refresh-point-notices" class="refresh-button">🔄새로고침</button>
+
+
     </div>
 </div>
 
 <!-- 푸터 -->
 <div class="footer">
-    <button id="view-all">
-        <img src="icons/icon16.png" alt="보기 아이콘" class="button-icon">
-        학교홈페이지
-    </button>
+    <a href="https://www.hansung.ac.kr" target="_blank" class="button-link">
+        <button>
+            <img src="icons/school.png" alt="보기 아이콘" class="button-icon">
+            학교홈페이지
+        </button>
+    </a>
 
-    <div class="refresh-buttons">
-        <button id="refresh-student-notices" class="refresh-button">
-            <img src="icons/icon48.png" alt="새로고침 아이콘" class="button-icon">
-            학사 공지 바로가기
-        </button>
-        <button id="refresh-school-notices" class="refresh-button">
-            <img src="icons/icon48.png" alt="새로고침 아이콘" class="button-icon">
-            학교 공지 바로가기
-        </button>
-        <button id="refresh-point-notices" class="refresh-button">
-            <img src="icons/icon48.png" alt="새로고침 아이콘" class="button-icon">
-            비교과 공지 바로가기
-        </button>
+    <div class="homepage-buttons">
+        <a href="https://www.hansung.ac.kr" target="_blank" class="button-link">
+            <button>
+                <img src="icons/study.png" alt="새로고침 아이콘" class="button-icon">
+                학사 공지
+            </button>
+        </a>
+        <a href="https://www.hansung.ac.kr" target="_blank" class="button-link">
+            <button>
+                <img src="icons/school.png" alt="새로고침 아이콘" class="button-icon">
+                학교 공지
+            </button>
+        </a>
+        <a href="https://www.hansung.ac.kr" target="_blank" class="button-link">
+            <button>
+                <img src="icons/point.png" alt="새로고침 아이콘" class="button-icon">
+                비교과 공지
+            </button>
+        </a>
     </div>
 </div>
 </body>
