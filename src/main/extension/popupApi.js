@@ -1,7 +1,9 @@
 const BASE_URL = "http://localhost:8080";
 
 
-
+function closePopup() {
+    window.close();  // 팝업 창 닫기
+}
 
 
 
