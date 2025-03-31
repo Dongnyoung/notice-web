@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://35.172.135.222:8080";
 
 
 function closePopup() {
