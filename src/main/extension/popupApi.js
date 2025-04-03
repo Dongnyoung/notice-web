@@ -1,9 +1,15 @@
-const BASE_URL = "http://35.172.135.222:8080";
+const BASE_URL = "http://localhost:8080";
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("closeIcon").addEventListener("click", closePopup);
+});
 
 function closePopup() {
-    window.close();  // 팝업 창 닫기
+    window.close(); // 팝업을 닫음
 }
+
+
 
 
 
