@@ -29,7 +29,7 @@
         }
         /* 팝업 창 크기 지정 */
         body {
-            width: 400px;
+            width: 450px;
             height: 450px;
             margin: 0;
             font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
@@ -149,10 +149,13 @@
         }
 
         .section-icon {
-            width: 30px;
-            height: 30px;
+            width: 60px;
+            height: 60px;
         }
-
+        /* 호버 효과 */
+        .section-icon:hover{
+           transform: scale(1.5); /* 호버 시 이미지 확대 */
+        }
         /* 공지사항 리스트 */
         ul {
             list-style-type: none;
@@ -273,8 +276,12 @@
         }
 
         .button-icon {
-            width: 16px;
-            height: 16px;
+            width: 40px;
+            height: 40px;
+        }
+        /* 호버 효과 */
+        .button-icon:hover{
+           transform: scale(1.5); /* 호버 시 이미지 확대 */
         }
 
         .homepage-buttons {
@@ -326,6 +333,8 @@
 
         .tab-button:hover {
             background-color: #4169e1; /* 호버 시 더 진한 파란색 */
+           transform: scale(1.2); /* 호버 시 이미지 확대 */
+
         }
 
         .tab-content {
