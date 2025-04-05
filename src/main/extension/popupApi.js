@@ -1,4 +1,4 @@
-const BASE_URL = "http://15.164.104.146:8080";
+const BASE_URL = "http://3.35.8.225:8080";
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -9,8 +9,14 @@ function closePopup() {
     window.close(); // 팝업을 닫음
 }
 
-
-
+chrome.action.onClicked.addListener(async (tab) => {
+  await chrome.sidePanel.setOptions({
+    tabId: tab.id,
+    path: "index.html",
+    enabled: true
+  });
+  await chrome.sidePanel.open({ tabId: tab.id });
+});
 
 
 // 공지사항 데이터를 불러오는 함수
