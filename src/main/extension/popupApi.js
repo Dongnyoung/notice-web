@@ -1,4 +1,4 @@
-const BASE_URL = "http://54.180.125.80:8080";
+const BASE_URL = "http://3.35.16.2:8080";
 
 
 document.addEventListener("DOMContentLoaded", function () {

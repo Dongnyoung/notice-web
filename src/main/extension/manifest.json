@@ -19,6 +19,6 @@
     "tabs"
   ],
   "host_permissions": [
-    "http://localhost:8080/*"
+    "http://3.35.16.2:8080/*"
   ]
 }

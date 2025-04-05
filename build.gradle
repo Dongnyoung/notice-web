@@ -31,8 +31,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 
-	implementation 'mysql:mysql-connector-j:9.2.0'
-
+	implementation 'mysql:mysql-connector-java:8.0.33'
 	// JUnit
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
