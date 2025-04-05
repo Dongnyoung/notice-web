@@ -33,7 +33,11 @@ public class NoticeApiController {
     private PointService pointService;
 
     @PostConstruct
-    @Scheduled
+    public void init() {
+        fetchNotices();  // 서버 시작 시 1번 실행
+    }
+
+    @Scheduled(fixedRate = 600000)
     // 크롤링하여 DB에 저장 (이 부분을 자동으로 실행하도록 하는 것은 보통 서비스에서 처리합니다.)
     public void fetchNotices() {
         noticeRepository.deleteAll();
