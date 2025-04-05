@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "chrome-extension://akjfnodcnglonkkfiompeaobokjeemei",
                         "chrome-extension://mmhknbcagbaabienhmaanfgonhpdlebj",
                         "chrome-extension://hojnkejedejifjdooaadmcocnniapbfa",
+                        "chrome-extension://alcegohhmcjalnhcnicehncabkajjlpb",
                         "http://15.164.104.146:8080")  // 크롬 익스텐션 ID를 명시
                 .allowedMethods("GET", "POST", "PUT", "DELETE")  // 허용할 HTTP 메서드
                 .allowedHeaders("*")  // 모든 헤더 허용
