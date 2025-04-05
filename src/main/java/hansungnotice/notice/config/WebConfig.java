@@ -10,7 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")  // 모든 경로에 대해 CORS 설정
-                .allowedOrigins("chrome-extension://*","http://15.164.104.146:8080")  // 크롬 익스텐션 ID를 명시
+                .allowedOriginPatterns("*") //테스트용
+                //.allowedOrigins("chrome-extension://*","http://15.164.104.146:8080")  // 크롬 익스텐션 ID를 명시
                 .allowedMethods("GET", "POST", "PUT", "DELETE")  // 허용할 HTTP 메서드
                 .allowedHeaders("*")  // 모든 헤더 허용
                 .allowCredentials(true);  // 쿠키 전송 허용
