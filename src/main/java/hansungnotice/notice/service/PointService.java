@@ -70,6 +70,6 @@ public class PointService {
         }
     }
     public List<Notice> findPoint() {
-        return noticeRepository.findAllByOrderByIdDesc();
+        return noticeRepository.findAllByOrderByIdAsc();
     }
 }

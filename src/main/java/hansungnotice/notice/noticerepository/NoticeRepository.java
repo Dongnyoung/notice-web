@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-    List<Notice> findAllByOrderByIdDesc();  // 최신 5개 공지 가져오기
+    List<Notice> findAllByOrderByIdAsc();  // 내림차순 정렬
     //List<Notice> findByTitleContaining(String keyword);
 }

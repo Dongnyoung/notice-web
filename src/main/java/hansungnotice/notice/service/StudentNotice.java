@@ -75,6 +75,6 @@ public class StudentNotice {
         }
     }
     public List<Notice> getRecentNotices() {
-        return noticeRepository.findAllByOrderByIdDesc();
+        return noticeRepository.findAllByOrderByIdAsc();
     }
 }

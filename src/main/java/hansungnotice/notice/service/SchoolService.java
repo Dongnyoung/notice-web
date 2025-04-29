@@ -74,6 +74,6 @@ public class SchoolService {
         }
     }
     public List<Notice> findNotice() {
-        return noticeRepository.findAllByOrderByIdDesc();
+        return noticeRepository.findAllByOrderByIdAsc();
     }
 }
