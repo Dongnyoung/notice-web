@@ -31,6 +31,8 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	//test용
+	testRuntimeOnly 'com.h2database:h2'
 
 	implementation 'mysql:mysql-connector-java:8.0.33'
 	// JUnit
