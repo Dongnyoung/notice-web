@@ -37,8 +37,8 @@ public class NoticeApiController {
         fetchNotices();  // 서버 시작 시 1번 실행
     }
 
-    @Scheduled(fixedRate = 600000)
-    // 크롤링하여 DB에 저장 (이 부분을 자동으로 실행하도록 하는 것은 보통 서비스에서 처리합니다.)
+    @Scheduled(cron = "0 0 9,21 * * *", zone = "Asia/Seoul") //오전 9시, 오후 9시 두번 갱신
+    // 크롤링하여 DB에 저장
     public void fetchNotices() {
         noticeRepository.deleteAll();
         String stuUrl = "https://www.hansung.ac.kr/hansung/8385/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGaGFuc3VuZyUyRjE0MyUyRmFydGNsTGlzdC5kbyUzRmJic0NsU2VxJTNEMjM2JTI2YmJzT3BlbldyZFNlcSUzRCUyNmlzVmlld01pbmUlM0RmYWxzZSUyNnNyY2hDb2x1bW4lM0RzaiUyNnNyY2hXcmQlM0QlMjY%3D";
