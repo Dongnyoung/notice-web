@@ -31,12 +31,16 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//test용
-	testRuntimeOnly 'com.h2database:h2'
-
+	// H2 데이터베이스 (로컬 개발용)
+	runtimeOnly 'com.h2database:h2'
+	
+	// MySQL (운영용)
 	implementation 'mysql:mysql-connector-java:8.0.33'
 	// JUnit
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+
 }
 
 tasks.named('test') {

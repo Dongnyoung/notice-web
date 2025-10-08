@@ -1,23 +1,15 @@
 package hansungnotice.notice;
 
-import hansungnotice.notice.domain.Notice;
-import hansungnotice.notice.domain.NoticeType;
-import hansungnotice.notice.service.PointService;
-import hansungnotice.notice.service.SchoolService;
-import hansungnotice.notice.service.StudentNotice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import java.util.List;
 
 @SpringBootApplication
 @EnableScheduling
 public class NoticeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NoticeApplication.class,args);
+		SpringApplication.run(NoticeApplication.class, args);
 /*
 		ApplicationContext context = SpringApplication.run(NoticeApplication.class, args);
 

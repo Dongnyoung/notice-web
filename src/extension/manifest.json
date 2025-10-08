@@ -10,15 +10,9 @@
   },
   "action": {
     "default_title": "부기벨",
-    "default_popup": "index.html",
-    "default_icon": "icons/icon128.png"
+    "default_icon": "icons/icon128.png",
+    "default_popup": "index.html"
   },
-  "permissions": [
-    "storage",
-    "activeTab",
-    "tabs"
-  ],
-  "host_permissions": [
-    "http://3.35.16.2:8080/*"
-  ]
+  "permissions": ["storage", "activeTab", "tabs"],
+  "host_permissions": ["http://localhost:8080/*"]
 }

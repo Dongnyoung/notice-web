@@ -1,36 +1,55 @@
 package hansungnotice.notice.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-
-@NoArgsConstructor
-@Getter
 @Entity
+@Table(name = "notices")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 500)
     private String title;
-    private LocalDate postedDate; //게시일
+    
+    @Column(name = "posted_date", nullable = false)
+    private LocalDate postedDate;
+    
+    @Column(nullable = false, length = 1000)
     private String url;
+    
     @Enumerated(EnumType.STRING)
-    private NoticeType type; //공지유형 (학사공지,장학공지..)
+    @Column(nullable = false)
+    private NoticeType type;
+    
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    public NoticeType getType() {
-        return type;
-    }
-
+    @Builder
     public Notice(String title, LocalDate postedDate, String url, NoticeType type) {
         this.title = title;
         this.postedDate = postedDate;
+        this.url = url;
         this.type = type;
-        this.url=url;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
-
+    
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

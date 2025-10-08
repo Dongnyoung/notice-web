@@ -2,82 +2,139 @@ package hansungnotice.notice.controller;
 
 import hansungnotice.notice.domain.Notice;
 import hansungnotice.notice.domain.NoticeType;
-import hansungnotice.notice.noticerepository.NoticeRepository;
-import hansungnotice.notice.service.PointService;
-import hansungnotice.notice.service.SchoolService;
-import hansungnotice.notice.service.StudentNotice;
+import hansungnotice.notice.service.NoticeService;
+import hansungnotice.notice.service.PointNoticeService;
+import hansungnotice.notice.service.SchoolNoticeService;
+import hansungnotice.notice.service.StudentNoticeService;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/api/notices")
+@RequiredArgsConstructor
+@Slf4j
 public class NoticeApiController {
-    private final NoticeRepository noticeRepository;
-    public NoticeApiController(NoticeRepository noticeRepository){
-        this.noticeRepository=noticeRepository;
-    }
-    @Autowired
-    private StudentNotice studentNotice;
 
-    @Autowired
-    private SchoolService schoolService;
+    private final StudentNoticeService studentNoticeService;
+    private final SchoolNoticeService schoolNoticeService;
+    private final PointNoticeService pointNoticeService;
+    private final NoticeService noticeService;
 
-    @Autowired
-    private PointService pointService;
+    // URL 상수
+    private static final String STUDENT_URL = "https://www.hansung.ac.kr/hansung/8385/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGaGFuc3VuZyUyRjE0MyUyRmFydGNsTGlzdC5kbyUzRmJic0NsU2VxJTNEMjM2JTI2YmJzT3BlbldyZFNlcSUzRCUyNmlzVmlld01pbmUlM0RmYWxzZSUyNnNyY2hDb2x1bW4lM0RzaiUyNnNyY2hXcmQlM0QlMjY%3D";
+    private static final String SCHOOL_URL = "https://www.hansung.ac.kr/hansung/8385/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGaGFuc3VuZyUyRjE0MyUyRmFydGNsTGlzdC5kbyUzRmJic0NsU2VxJTNEMTY2JTI2YmJzT3BlbldyZFNlcSUzRCUyNmlzVmlld01pbmUlM0RmYWxzZSUyNnNyY2hDb2x1bW4lM0RzaiUyNnNyY2hXcmQlM0QlMjY%3D";
+    private static final String POINT_URL = "https://hsportal.hansung.ac.kr/ko/program";
 
     @PostConstruct
     public void init() {
-        fetchNotices();  // 서버 시작 시 1번 실행
+        log.info("애플리케이션 시작 - 초기 공지사항 크롤링 실행");
+        fetchAllNotices();
     }
 
-    @Scheduled(cron = "0 0 9,21 * * *", zone = "Asia/Seoul") //오전 9시, 오후 9시 두번 갱신
-    // 크롤링하여 DB에 저장
-    public void fetchNotices() {
-        noticeRepository.deleteAll();
-        String stuUrl = "https://www.hansung.ac.kr/hansung/8385/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGaGFuc3VuZyUyRjE0MyUyRmFydGNsTGlzdC5kbyUzRmJic0NsU2VxJTNEMjM2JTI2YmJzT3BlbldyZFNlcSUzRCUyNmlzVmlld01pbmUlM0RmYWxzZSUyNnNyY2hDb2x1bW4lM0RzaiUyNnNyY2hXcmQlM0QlMjY%3D";
-        String schUrl = "https://www.hansung.ac.kr/hansung/8385/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGaGFuc3VuZyUyRjE0MyUyRmFydGNsTGlzdC5kbyUzRmJic0NsU2VxJTNEMTY2JTI2YmJzT3BlbldyZFNlcSUzRCUyNmlzVmlld01pbmUlM0RmYWxzZSUyNnNyY2hDb2x1bW4lM0RzaiUyNnNyY2hXcmQlM0QlMjY%3D";
-        String poUrl = "https://hsportal.hansung.ac.kr/ko/program/all/list/0/1?sort=applicant";
-
-        studentNotice.fetchAndSaveNotices(stuUrl, NoticeType.STUDENT);
-        schoolService.schoolFetchAndSaveNotices(schUrl, NoticeType.SCHOOL);
-        pointService.pointFetchAndSaveNotices(poUrl, NoticeType.POINT);
+    /**
+     * 수동 크롤링 실행
+     */
+    @PostMapping("/crawl")
+    public ResponseEntity<Map<String, Object>> fetchNotices() {
+        log.info("수동 크롤링 요청 받음");
+        fetchAllNotices();
+        
+        Map<String, Object> response = Map.of(
+            "message", "크롤링이 완료되었습니다.",
+            "timestamp", System.currentTimeMillis()
+        );
+        
+        return ResponseEntity.ok(response);
     }
 
+    /**
+     * 스케줄된 크롤링 (오전 9시, 오후 9시)
+     */
+    @Scheduled(cron = "0 0 9,21 * * *", zone = "Asia/Seoul")
+    public void scheduledCrawl() {
+        log.info("스케줄된 크롤링 실행");
+        fetchAllNotices();
+    }
 
-    // 학생 공지사항 조회
+    /**
+     * 모든 공지사항 크롤링
+     */
+    private void fetchAllNotices() {
+        try {
+            studentNoticeService.fetchAndSaveNotices(STUDENT_URL);
+            schoolNoticeService.fetchAndSaveNotices(SCHOOL_URL);
+            pointNoticeService.fetchAndSaveNotices(POINT_URL);
+            log.info("모든 공지사항 크롤링 완료");
+        } catch (Exception e) {
+            log.error("크롤링 중 오류 발생: {}", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 학생 공지사항 조회
+     */
     @GetMapping("/student")
-    public List<Notice> getStudentNotices() {
-        List<Notice> allNotices = studentNotice.getRecentNotices();
-        // NoticeType.STUDENT인 공지사항만 필터링
-        return allNotices.stream()
-                .filter(notice -> notice.getType().equals(NoticeType.STUDENT))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<Notice>> getStudentNotices() {
+        List<Notice> notices = studentNoticeService.getStudentNotices();
+        return ResponseEntity.ok(notices);
     }
 
-    // 학교 공지사항 조회
+    /**
+     * 학교 공지사항 조회
+     */
     @GetMapping("/school")
-    public List<Notice> getSchoolNotices() {
-        List<Notice> allNotices = schoolService.findNotice();
-        // NoticeType.SCHOOL인 공지사항만 필터링
-        return allNotices.stream()
-                .filter(notice -> notice.getType().equals(NoticeType.SCHOOL))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<Notice>> getSchoolNotices() {
+        List<Notice> notices = schoolNoticeService.getSchoolNotices();
+        return ResponseEntity.ok(notices);
     }
 
-    // 비교과 공지사항 조회
+    /**
+     * 비교과 공지사항 조회
+     */
     @GetMapping("/point")
-    public List<Notice> getPointNotices() {
-        List<Notice> allNotices = pointService.findPoint();
-        // NoticeType.POINT인 공지사항만 필터링
-        return allNotices.stream()
-                .filter(notice -> notice.getType().equals(NoticeType.POINT))
-                .collect(Collectors.toList());
+    public ResponseEntity<List<Notice>> getPointNotices() {
+        List<Notice> notices = pointNoticeService.getPointNotices();
+        return ResponseEntity.ok(notices);
+    }
+
+    /**
+     * 전체 공지사항 조회
+     */
+    @GetMapping
+    public ResponseEntity<List<Notice>> getAllNotices() {
+        List<Notice> notices = noticeService.getRecentNotices();
+        return ResponseEntity.ok(notices);
+    }
+
+    /**
+     * 공지사항 검색
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<Notice>> searchNotices(@RequestParam String keyword) {
+        List<Notice> notices = noticeService.searchNoticesByTitle(keyword);
+        return ResponseEntity.ok(notices);
+    }
+
+    /**
+     * 공지사항 통계 조회
+     */
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getNoticeStats() {
+        Map<String, Object> stats = Map.of(
+            "student", noticeService.getNoticeCountByType(NoticeType.STUDENT),
+            "school", noticeService.getNoticeCountByType(NoticeType.SCHOOL),
+            "point", noticeService.getNoticeCountByType(NoticeType.POINT),
+            "total", noticeService.getNoticeCountByType(NoticeType.STUDENT) + 
+                    noticeService.getNoticeCountByType(NoticeType.SCHOOL) + 
+                    noticeService.getNoticeCountByType(NoticeType.POINT)
+        );
+        return ResponseEntity.ok(stats);
     }
 }
