@@ -4,6 +4,7 @@ const BASE_URL = "http://localhost:8080";
 // 확장 API 유무 체크
 const hasChrome = typeof chrome !== "undefined" && !!chrome.runtime;
 
+/*
 // 닫기 버튼: 확장이라면 side panel 닫기 요청, 웹이라면 창 닫기(팝업에서만 먹힘)
 function handleClose() {
     if (hasChrome) {
@@ -12,11 +13,12 @@ function handleClose() {
             return;
         } catch (_) {}
     }
-    // 일반 웹 페이지에서는 window.close()가 대부분 막혀요.
-    // 대신 섹션을 숨기거나 안내 토스트를 띄우는 용도로 쓰세요.
+
     // window.close();
     document.body.innerHTML = "<div style='padding:20px;font-size:14px'>패널을 닫았습니다.</div>";
 }
+
+ */
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("closeIcon")?.addEventListener("click", handleClose);
